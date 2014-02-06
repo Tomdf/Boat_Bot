@@ -14,7 +14,7 @@ byte startByte; //storage for frame start identifier
 byte MotorSpeedF; //byte to store right motor forward speed value
 byte MotorSpeedR; //byte to store right motor reverse speed value
 
-int MotorForward = 3; //right motor forward pin connects to PWM D3
+int MotorForward = 3; // motor forward pin connects to PWM D3
 int MotorReverse = 5;
 
 #include <Servo.h> 
@@ -25,6 +25,7 @@ Servo clawServo;
 
 int armPos = 0;
 int clawPos = 0;
+int rutterPos = 90;
 
 void setup() {
   Serial.begin(57600);
@@ -52,54 +53,47 @@ void loop() {
       RY = Serial1.read(); //reads byte 5
       RX = Serial1.read(); //reads byte 6
     }
-    
-    if (LY <= 115){
-      MotorSpeedF = map(LY, 0, 115, 255, 0); //converts the thumbstick value to 0 - 255 for PWM
-      analogWrite (MotorReverse, 0);
-      analogWrite (MotorForward, MotorSpeedF);
-    }
-    else if (LY >= 155){
-      MotorSpeedR = map(LY, 155, 254, 0, 255);
-      analogWrite (MotorForward, 0);
-      analogWrite (MotorReverse, MotorSpeedR);
-    }
-    else {
-      analogWrite (MotorForward,0);
-      analogWrite (MotorReverse,0);
-    }
-    
-    rutterPos = map(RX, 0, 255, 0, 180);
-    rutterServo.write(rutterPos
-    
-    if (RX <= 105){
-      if (rutterPos > 0){
-        rutterServo.write(rutterPos -=1);
-        delay(15);
-      }
-      if (rutterPos < 181){
-        rutterServo.write
-    }
-    else if (RX >= 135){
-      
-    }
-    else {
-    }
- /*   
-    Serial.print("buttons = ");
-    Serial.println(buttons);
-    Serial.print("dPads = ");
-    Serial.println(dPads);
-    Serial.print("LY = ");
-    Serial.println(LY);
-    Serial.print("LX = ");
-    Serial.println(LX);
-    Serial.print("RY = ");
-    Serial.println(RY);
-    Serial.print("RX = ");
-    Serial.println(RX);
-    Serial.println();
- */
-    delay(15);
   }
+
+  if (LY <= 115){
+    MotorSpeedF = map(LY, 0, 115, 255, 0); //converts the thumbstick value to 0 - 255 for PWM
+    analogWrite (MotorReverse, 0);
+    analogWrite (MotorForward, MotorSpeedF);
+  }
+  else if (LY >= 155){
+    MotorSpeedR = map(LY, 155, 254, 0, 255);
+    analogWrite (MotorForward, 0);
+    analogWrite (MotorReverse, MotorSpeedR);
+  }
+  else {
+    analogWrite (MotorForward,0);
+    analogWrite (MotorReverse,0);
+  }
+
+  rutterPos = map(RX, 0, 255, 0, 180);
+  rutterServo.write(rutterPos);
+
+  delay(15);
+  /*
+  Serial.print("buttons = ");
+   Serial.println(buttons);
+   Serial.print("dPads = ");
+   Serial.println(dPads);
+   Serial.print("LY = ");
+   Serial.println(LY);
+   Serial.print("LX = ");
+   Serial.println(LX);
+   Serial.print("RY = ");
+   Serial.println(RY);
+   Serial.print("RX = ");
+   Serial.println(RX);
+   Serial.println();
+   */
 }
+
+
+
+
+
+
 
